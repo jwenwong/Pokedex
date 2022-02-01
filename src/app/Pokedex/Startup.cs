@@ -10,7 +10,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using PokeApiNet;
 
-namespace Api
+namespace Pokedex
 {
     public class Startup
     {
