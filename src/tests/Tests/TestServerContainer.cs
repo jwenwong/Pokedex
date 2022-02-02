@@ -1,16 +1,11 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Configuration;
 using Pokedex;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace UnitTests
+namespace Tests
 {
     public class TestServerContainer : IDisposable, IAsyncLifetime
     {
