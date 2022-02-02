@@ -2,10 +2,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Proxies;
-using Services;
+using Microsoft.OpenApi.Models;
 using Refit;
 using PokeApiNet;
+using Pokedex.Proxies;
+using Pokedex.Services;
 
 namespace Pokedex
 {
@@ -16,7 +17,11 @@ namespace Pokedex
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddTransient<IPokemonService, PokemonService>()
+            services.
+                AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Pokedex", Version = "v1" });
+                }).AddTransient<IPokemonService, PokemonService>()
                 .AddTransient<PokeApiClient>()
                 .AddRefitClient<IFunTranslationsProxy>().ConfigureHttpClient(c => c.BaseAddress = new System.Uri("https://api.funtranslations.com/translate"));
         }
@@ -28,6 +33,13 @@ namespace Pokedex
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pokedex V1");
+            });
 
             app.UseRouting();
 

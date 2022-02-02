@@ -1,8 +1,8 @@
-﻿using Proxies.Models;
+﻿using System.Threading.Tasks;
+using Pokedex.Models;
 using Refit;
-using System.Threading.Tasks;
 
-namespace Proxies
+namespace Pokedex.Proxies
 {
     public interface IFunTranslationsProxy
     {

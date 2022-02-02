@@ -1,7 +1,7 @@
 using FluentAssertions;
-using Services.Models;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Pokedex.Models;
 using Xunit;
 
 namespace Tests

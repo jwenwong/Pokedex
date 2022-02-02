@@ -33,7 +33,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\app\Pokedex\Pokedex.csproj" />
-    <ProjectReference Include="..\..\app\Services\Services.csproj" />
   </ItemGroup>
 
 </Project>
