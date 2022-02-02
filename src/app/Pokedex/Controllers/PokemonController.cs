@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Services;
-using Services.Exceptions;
-using Services.Models;
 using System.Threading.Tasks;
+using Pokedex.Exceptions;
+using Pokedex.Models;
+using Pokedex.Services;
 
 namespace Pokedex.Controllers
 {

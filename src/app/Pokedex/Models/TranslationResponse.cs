@@ -1,4 +1,4 @@
-﻿namespace Proxies.Models
+﻿namespace Pokedex.Models
 {
     public class TranslationResponse
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Services.Exceptions
+namespace Pokedex.Exceptions
 {
     public class PokemonNotFoundException : Exception
     {

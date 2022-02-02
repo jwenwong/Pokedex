@@ -1,16 +1,15 @@
 ﻿using System;
-using Proxies;
-using Services.Models;
 using System.Linq;
-using System.Threading.Tasks;
-using PokeApiNet;
-using Services.Exceptions;
 using System.Net.Http;
-using Proxies.Models;
-using Refit;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using PokeApiNet;
+using Pokedex.Exceptions;
+using Pokedex.Models;
+using Pokedex.Proxies;
+using Refit;
 
-namespace Services
+namespace Pokedex.Services
 {
     public interface IPokemonService
     {
@@ -33,8 +32,7 @@ namespace Services
         {
             try
             {
-                var pokemon = await _pokeApiClient.GetResourceAsync<Pokemon>(name);
-                var response = await _pokeApiClient.GetResourceAsync(pokemon.Species);
+                var response = await _pokeApiClient.GetResourceAsync<PokemonSpecies>(name);
                 return new PokemonResponse
                 {
                     Name = response.Name,
@@ -45,7 +43,7 @@ namespace Services
             }
             catch(HttpRequestException ex)
             {
-                _logger.LogError($"[ERROR] {DateTime.Now} - Message: {ex.Message}");
+                LogError(ex.Message);
                 throw new PokemonNotFoundException(name);
             }
         }
@@ -56,18 +54,25 @@ namespace Services
 
             try
             {
-                var request = new TranslationRequest { Text = pokemon.Description };
-                var translation = (pokemon.IsLegendary || pokemon.Habitat == "cave") ? await _translationsProxy.TranslateYoda(request).ConfigureAwait(false) : await _translationsProxy.TranslateShakespeare(request).ConfigureAwait(false);
+                var request = new TranslationRequest {Text = pokemon.Description};
+                var translation = (pokemon.IsLegendary || pokemon.Habitat == "cave")
+                    ? await _translationsProxy.TranslateYoda(request).ConfigureAwait(false)
+                    : await _translationsProxy.TranslateShakespeare(request).ConfigureAwait(false);
                 if (translation.Success.Total == 1)
                 {
                     pokemon.Description = translation.Contents.Translated;
                 }
             }
-            catch(ApiException ex)
+            catch (ApiException ex)
             {
-                _logger.LogError($"[ERROR] {DateTime.Now} - Message: {ex.Message}");
+                LogError(ex.Message);
             }
             return pokemon;
+        }
+
+        private void LogError(string message)
+        {
+            _logger.LogError($"[ERROR] {DateTime.Now} - Message: {message}");
         }
     }
 }

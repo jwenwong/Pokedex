@@ -1,4 +1,4 @@
-﻿namespace Services.Models
+﻿namespace Pokedex.Models
 {
     public class PokemonResponse
     {
