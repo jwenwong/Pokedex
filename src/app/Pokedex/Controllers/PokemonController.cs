@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Services;
 using Services.Exceptions;
 using Services.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Pokedex.Controllers
@@ -15,26 +11,37 @@ namespace Pokedex.Controllers
     public class PokemonController : ControllerBase
     {
         private readonly IPokemonService _pokemonService;
-        private readonly ILogger<PokemonController> _logger;
-        public PokemonController(IPokemonService pokemonService, ILogger<PokemonController> logger)
+        public PokemonController(IPokemonService pokemonService)
         {
             _pokemonService = pokemonService;
-            _logger = logger;
         }
 
-        [HttpGet("{pokemon}")]
-        public async Task<ActionResult<PokemonResponse>> GetPokemon(string pokemon)
+        [HttpGet("{name}")]
+        public async Task<ActionResult<PokemonResponse>> GetPokemon(string name)
         {
             try
             {
-                return await _pokemonService.GetPokemon(pokemon);
+                return await _pokemonService.GetPokemon(name);
             }
-            catch(PokemonNotFoundException ex)
+            catch(PokemonNotFoundException)
             {
-                _logger.LogError(ex.Message);
                 return NotFound();
             }
             
+        }
+
+        [HttpGet("translated/{name}")]
+        public async Task<ActionResult<PokemonResponse>> GetTranslatedPokemon(string name)
+        {
+            try
+            {
+                return await _pokemonService.GetTranslatedPokemon(name);
+            }
+            catch (PokemonNotFoundException)
+            {
+                return NotFound();
+            }
+
         }
     }
 }
