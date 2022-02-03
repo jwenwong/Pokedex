@@ -2,6 +2,7 @@ using FluentAssertions;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Pokedex.Models;
+using Refit;
 using Xunit;
 
 namespace Tests
@@ -38,7 +39,7 @@ namespace Tests
             result.IsSuccessStatusCode.Should().Be(false);
         }
 
-        [Fact]
+        [SkippableFact(typeof(ApiException))]
         public async Task GetTranslatedPokemon_WhenPokemonIsLegendary_ShouldReturnYodaTranslation()
         {
             var name = "mewtwo";
@@ -51,7 +52,7 @@ namespace Tests
             content.Description.Should().Be("Created by a scientist after years of horrific gene splicing and dna engineering experiments,  it was.");
         }
 
-        [Fact]
+        [SkippableFact(typeof(ApiException))]
         public async Task GetTranslatedPokemon_WhenHabitatIsCave_ShouldReturnYodaTranslation()
         {
             var name = "zubat";
@@ -64,7 +65,7 @@ namespace Tests
             content.Description.Should().Be("Forms colonies in perpetually dark places.Ultrasonic waves to identify and approach targets,  uses.");
         }
 
-        [Fact]
+        [SkippableFact(typeof(ApiException))]
         public async Task GetTranslatedPokemon_WhenNotLegendaryOrCave_ShouldReturnShakespeareTranslation()
         {
             var name = "charmander";
@@ -75,19 +76,6 @@ namespace Tests
             content.Habitat.Should().Be("mountain");
             content.IsLegendary.Should().Be(false);
             content.Description.Should().Be("Obviously prefers hot places. At which hour 't rains,  steam is did doth sayeth to spout from the tip of its tail.");
-        }
-
-        [Fact]
-        public async Task GetTranslatedPokemon_WhenTranslationReturnsTooManyRequests_ShouldReturnRegularDescription()
-        {
-            var name = "mewtwo";
-            var result = await _client.GetAsync($"/pokemon/translated/{name}");
-            result.EnsureSuccessStatusCode();
-            var content = await result.Content.ReadAsAsync<PokemonResponse>();
-            content.Name.Should().Be(name);
-            content.Habitat.Should().Be("rare");
-            content.IsLegendary.Should().Be(true);
-            content.Description.Should().Be("It was created by a scientist after years of horrific gene splicing and DNA engineering experiments.");
         }
     }
 }
