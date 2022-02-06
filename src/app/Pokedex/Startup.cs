@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,9 +24,12 @@ namespace Pokedex
                 AddSwaggerGen(c =>
                 {
                     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Pokedex", Version = "v1" });
+                    var xmlFile = $"{ Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                    c.IncludeXmlComments(xmlPath);
                 }).AddTransient<IPokemonService, PokemonService>()
                 .AddTransient<PokeApiClient>()
-                .AddRefitClient<IFunTranslationsProxy>().ConfigureHttpClient(c => c.BaseAddress = new System.Uri("https://api.funtranslations.com/translate"));
+                .AddRefitClient<IFunTranslationsProxy>().ConfigureHttpClient(c => c.BaseAddress = new Uri("https://api.funtranslations.com/translate"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
