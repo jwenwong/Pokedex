@@ -2,7 +2,6 @@ using FluentAssertions;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Pokedex.Models;
-using Refit;
 using Xunit;
 
 namespace Tests
@@ -39,7 +38,7 @@ namespace Tests
             result.IsSuccessStatusCode.Should().Be(false);
         }
 
-        [SkippableFact(typeof(ApiException))]
+        [Fact]
         public async Task GetTranslatedPokemon_WhenPokemonIsLegendary_ShouldReturnYodaTranslation()
         {
             var name = "mewtwo";
@@ -49,10 +48,12 @@ namespace Tests
             content.Name.Should().Be(name);
             content.Habitat.Should().Be("rare");
             content.IsLegendary.Should().Be(true);
-            content.Description.Should().Be("Created by a scientist after years of horrific gene splicing and dna engineering experiments,  it was.");
+            content.Description.Should()
+                .Match(x => (x ==
+                    "Created by a scientist after years of horrific gene splicing and dna engineering experiments,  it was.") || (x == "It was created by a scientist after years of horrific gene splicing and DNA engineering experiments."));
         }
 
-        [SkippableFact(typeof(ApiException))]
+        [Fact]
         public async Task GetTranslatedPokemon_WhenHabitatIsCave_ShouldReturnYodaTranslation()
         {
             var name = "zubat";
@@ -62,10 +63,14 @@ namespace Tests
             content.Name.Should().Be(name);
             content.Habitat.Should().Be("cave");
             content.IsLegendary.Should().Be(false);
-            content.Description.Should().Be("Forms colonies in perpetually dark places.Ultrasonic waves to identify and approach targets,  uses.");
+            content.Description.Should()
+                .Match(x => (x ==
+                             "Forms colonies in perpetually dark places.Ultrasonic waves to identify and approach targets,  uses.") ||
+                            x ==
+                            "Forms colonies in perpetually dark places. Uses ultrasonic waves to identify and approach targets.");
         }
 
-        [SkippableFact(typeof(ApiException))]
+        [Fact]
         public async Task GetTranslatedPokemon_WhenNotLegendaryOrCave_ShouldReturnShakespeareTranslation()
         {
             var name = "charmander";
@@ -75,7 +80,11 @@ namespace Tests
             content.Name.Should().Be(name);
             content.Habitat.Should().Be("mountain");
             content.IsLegendary.Should().Be(false);
-            content.Description.Should().Be("Obviously prefers hot places. At which hour 't rains,  steam is did doth sayeth to spout from the tip of its tail.");
+            content.Description.Should()
+                .Match(x => (x ==
+                             "Obviously prefers hot places. At which hour 't rains,  steam is did doth sayeth to spout from the tip of its tail.") ||
+                            (x ==
+                             "Obviously prefers hot places. When it rains, steam is said to spout from the tip of its tail."));
         }
     }
 }
