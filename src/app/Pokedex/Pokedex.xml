@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Pokedex</name>
+    </assembly>
+    <members>
+        <member name="M:Pokedex.Controllers.PokemonController.GetPokemon(System.String)">
+             <summary>Returns basic details of a pokemon</summary>
+             <param name="name">Name of pokemon to retrieve</param>
+             <returns>PokemonResponse -
+                 Description of the pokemon</returns>
+             <remarks>Sample request:
+             
+                 Get /pokemon/mewtwo</remarks>
+            
+             <response code="200">If pokemon is found</response>
+             <response code="404">If no pokemon found with that name</response>
+        </member>
+        <member name="M:Pokedex.Controllers.PokemonController.GetTranslatedPokemon(System.String)">
+             <summary>Returns basic details of a pokemon with a fun translation of its description.</summary>
+             <param name="name">Name of pokemon to retrieve</param>
+             <returns>PokemonResponse -
+                 Description of the pokemon</returns>
+             <remarks>
+             - If the pokemon is a Legendary or has a habitat of 'Cave' the description will be Yoda translated.<br/>
+             - If not, the description will be Shakespeare translated.<br/>
+             - If the description cannot be translated, it will return the normal description.<br/>
+             
+            Sample request:
+             
+                 Get /pokemon/translated/mewtwo </remarks>
+             <response code="200">If pokemon is found</response>
+             <response code="404">If no pokemon found with that name</response>
+        </member>
+        <member name="T:Refit.Implementation.Generated">
+            <inheritdoc />
+        </member>
+        <member name="T:Refit.Implementation.Generated.PokedexProxiesIFunTranslationsProxy">
+            <inheritdoc />
+        </member>
+        <member name="P:Refit.Implementation.Generated.PokedexProxiesIFunTranslationsProxy.Client">
+            <inheritdoc />
+        </member>
+        <member name="M:Refit.Implementation.Generated.PokedexProxiesIFunTranslationsProxy.#ctor(System.Net.Http.HttpClient,Refit.IRequestBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Refit.Implementation.Generated.PokedexProxiesIFunTranslationsProxy.TranslateYoda(Pokedex.Models.TranslationRequest)">
+            <inheritdoc />
+        </member>
+        <member name="M:Refit.Implementation.Generated.PokedexProxiesIFunTranslationsProxy.TranslateShakespeare(Pokedex.Models.TranslationRequest)">
+            <inheritdoc />
+        </member>
+        <member name="M:Refit.Implementation.Generated.PokedexProxiesIFunTranslationsProxy.Pokedex#Proxies#IFunTranslationsProxy#TranslateYoda(Pokedex.Models.TranslationRequest)">
+            <inheritdoc />
+        </member>
+        <member name="M:Refit.Implementation.Generated.PokedexProxiesIFunTranslationsProxy.Pokedex#Proxies#IFunTranslationsProxy#TranslateShakespeare(Pokedex.Models.TranslationRequest)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>
